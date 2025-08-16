@@ -110,7 +110,7 @@ class Calculator:
             self.equation_last += str(digit)
 
     
-    def set_operator(self, operator: Operator):
+    def set_operator(self, operator: Operator | str):
         """Sets the operator of the equation. Also changes the current number to the second one.
         
         >>> calc = Calculator()
@@ -121,7 +121,10 @@ class Calculator:
         >>> calc.get_equation()
         '2 - 4'
         """
-        self.equation_type = operator.value
+        if operator is Operator:
+            self.equation_type = operator.value
+        else:
+            self.equation_type = operator
         self.current_part = "last"
     
     
