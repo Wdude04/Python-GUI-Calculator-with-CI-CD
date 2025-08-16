@@ -45,14 +45,15 @@ class Calculator:
         >>> calc = Calculator()
         >>> calc.set_equation(2, Operator.MULTIPLY, 2)
         >>> calc.get_equation()
-        2 x 2
+        '2 x 2'
         """
         self.equation_first = str(first_part)
-        self.equation_type = operator or ""
         self.equation_last = str(second_part)
         if operator == None:
+            self.equation_type = ""
             self.current_part = "first"
         else:
+            self.equation_type = operator.value
             self.current_part = "last"
     
     
@@ -62,7 +63,7 @@ class Calculator:
         >>> calc = Calculator()
         >>> calc.set_equation(2, Operator.MULTIPLY, 2)
         >>> calc.get_equation()
-        2 x 2
+        '2 x 2'
         """
         eq = " ".join([self.equation_first, self.equation_type, self.equation_last])
         eq = eq.rstrip()
@@ -76,7 +77,8 @@ class Calculator:
         >>> calc.set_equation(2, Operator.MULTIPLY, 2)
         >>> calc.clear_entry()
         >>> calc.clear_entry()
-        2
+        >>> calc.get_equation()
+        '2'
         """
         if self.current_part == "first":
             self.equation_first = self.equation_first[:-1]
@@ -100,7 +102,7 @@ class Calculator:
         >>> calc.add_digit('2')
         >>> calc.add_digit(4)
         >>> calc.get_equation()
-        24
+        '24'
         """
         if self.current_part == "first":
             self.equation_first += str(digit)
@@ -115,11 +117,11 @@ class Calculator:
         >>> calc.add_digit(2)
         >>> calc.set_operator(Operator.ADD)
         >>> calc.add_digit(4)
-        >>> calc.set_operator(Operator.SUB)
+        >>> calc.set_operator(Operator.SUBTRACT)
         >>> calc.get_equation()
-        2 - 4
+        '2 - 4'
         """
-        self.equation_type = operator
+        self.equation_type = operator.value
         self.current_part = "last"
     
     
@@ -130,13 +132,13 @@ class Calculator:
         >>> calc.add_digit(2)
         >>> calc.flip_sign()
         >>> calc.get_equation()
-        -2
+        '-2'
 
         >>> calc = Calculator()
         >>> calc.set_equation(-2)
         >>> calc.flip_sign()
         >>> calc.get_equation()
-        2
+        '2'
         """
         if self.current_part == "first":
             if self.equation_first.startswith("-"):
@@ -158,7 +160,7 @@ class Calculator:
         >>> calc.add_decimal()
         >>> calc.add_digit(5)
         >>> calc.get_equation()
-        2.5
+        '2.5'
         """
         if self.current_part == "first":
             if not "." in self.equation_first:
@@ -175,17 +177,17 @@ class Calculator:
         >>> calc.set_equation(1, Operator.ADD, 1)
         >>> calc.solve()
         >>> calc.get_equation()
-        2
+        '2'
         """
         result = float(self.equation_first)
         
-        if self.equation_type == Operator.ADD:
+        if self.equation_type == Operator.ADD.value:
             result += float(self.equation_last)
-        elif self.equation_type == Operator.SUBTRACT:
+        elif self.equation_type == Operator.SUBTRACT.value:
             result -= float(self.equation_last)
-        elif self.equation_type == Operator.DIVIDE:
+        elif self.equation_type == Operator.DIVIDE.value:
             result /= float(self.equation_last)
-        elif self.equation_type == Operator.MULTIPLY:
+        elif self.equation_type == Operator.MULTIPLY.value:
             result *= float(self.equation_last)
         
         if result == int(result):
