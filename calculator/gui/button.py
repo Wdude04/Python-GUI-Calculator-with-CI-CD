@@ -1,6 +1,7 @@
 import api
 import tkinter as tk
 from dataclasses import dataclass, field
+from gui.base_widget import AbstractBaseWidget
 
 NO_BUTTON = "NO_BUTTON"
 
@@ -34,15 +35,15 @@ def calc_button(root, calculator: api.Calculator, display_text):
     button = tk.Button(root, text=display_text, command=lambda: calculator.input_button(display_text))
     return button
 
-class CalculatorButtons:
-    def __init__(self, calculator: api.Calculator):
-        self.calculator = calculator
-        self.frame = None
-        self.buttons = []
+class CalculatorButtons(AbstractBaseWidget):
+    def _create_layout(self, window_resolution):
+        aspect_ratio = window_resolution[0] / window_resolution[1]
+        self.create_buttons(LAYOUT_STANDARD)
+    
+    def _update(self):
+        pass
 
-    def create_gui(self, root, layout: ButtonLayout=LAYOUT_STANDARD):
-        self.frame = tk.Frame(root)
-
+    def create_buttons(self, layout: ButtonLayout):
         for i, label in enumerate(layout.buttons):
             if label == NO_BUTTON:
                 continue
@@ -55,14 +56,9 @@ class CalculatorButtons:
             
             button = calc_button(self.frame, self.calculator, label)
             button.grid(column=x, row=y, sticky=tk.NSEW, columnspan=size_x, rowspan=size_y)
-
-            self.buttons.append(button)
         
         for i in range(layout.width):
             self.frame.grid_columnconfigure(i, uniform="calc_buttons", weight=1)
         
         for i in range(int(len(layout.buttons)/layout.width)):
             self.frame.grid_rowconfigure(i, weight=1)
-
-    def update(self):
-        pass
