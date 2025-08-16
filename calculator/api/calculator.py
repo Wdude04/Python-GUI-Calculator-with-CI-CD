@@ -19,6 +19,7 @@ class Calculator:
         self.equation_type = ""
         self.current_part = "first"
     
+    """Accepts a string input and calls the appropriate function on the calculator."""
     def input_button(self, button: str):
         if button.isdigit():
             self.add_digit(button)
@@ -36,6 +37,13 @@ class Calculator:
         elif button == CLEAR_ENTRY:
             self.clear_entry()
     
+    """Sets the current equation of the calculator.
+    
+    >>> calc = Calculator()
+    >>> calc.set_equation(2, Operator.MULTIPLY, 2)
+    >>> calc.get_equation()
+    2 x 2
+    """
     def set_equation(self, first_part: str | float| int, operator: Operator = None, second_part: str | float | int = ""):
         self.equation_first = str(first_part)
         self.equation_type = operator or ""
@@ -45,6 +53,26 @@ class Calculator:
         else:
             self.current_part = "last"
     
+    """Returns the current equation as a single line string.
+    
+    >>> calc = Calculator()
+    >>> calc.set_equation(2, Operator.MULTIPLY, 2)
+    >>> calc.get_equation()
+    2 x 2
+    """
+    def get_equation(self):
+        eq = " ".join(self.equation_first, self.equation_type, self.equation_last)
+        eq = eq.rstrip()
+        return eq
+    
+    """Removes the last entry from the calculator. This could be a digit or the current operator.
+    
+    >>> calc = Calculator()
+    >>> calc.set_equation(2, Operator.MULTIPLY, 2)
+    >>> calc.clear_entry()
+    >>> calc.clear_entry()
+    2
+    """
     def clear_entry(self):
         if self.current_part == "first":
             self.equation_first = self.equation_first[:-1]
@@ -55,19 +83,52 @@ class Calculator:
             else:
                 self.equation_last = self.equation_last[:-1]
     
+    """Resets the state of the calculator. This is the same as calling self.set_equation('')."""
     def all_clear(self):
         self.set_equation("")
 
-    def add_digit(self, digit):
+    """Adds a digit to the current number. Accepts str and int.
+    
+    >>> calc = Calculator()
+    >>> calc.add_digit('2')
+    >>> calc.add_digit(4)
+    >>> calc.get_equation()
+    24
+    """
+    def add_digit(self, digit: str | int):
         if self.current_part == "first":
-            self.equation_first += digit
+            self.equation_first += str(digit)
         elif self.current_part == "last":
-            self.equation_last += digit
+            self.equation_last += str(digit)
 
+    """Sets the operator of the equation. Also changes the current number to the second one.
+    
+    >>> calc = Calculator()
+    >>> calc.add_digit(2)
+    >>> calc.set_operator(Operator.ADD)
+    >>> calc.add_digit(4)
+    >>> calc.set_operator(Operator.SUB)
+    >>> calc.get_equation()
+    2 - 4
+    """
     def set_operator(self, operator: Operator):
         self.equation_type = operator
         self.current_part = "last"
     
+    """Flips the sign of the current number.
+    
+    >>> calc = Calculator()
+    >>> calc.add_digit(2)
+    >>> calc.flip_sign()
+    >>> calc.get_equation()
+    -2
+
+    >>> calc = Calculator()
+    >>> calc.set_equation(-2)
+    >>> calc.flip_sign()
+    >>> calc.get_equation()
+    2
+    """
     def flip_sign(self):
         if self.current_part == "first":
             if self.equation_first.startswith("-"):
@@ -80,6 +141,15 @@ class Calculator:
             else:
                 self.equation_last = "-" + self.equation_last
     
+    """Adds a decimal to the end of the current number if it doesn't have one. Otherwise it does nothing.
+    
+    >>> calc = Calculator()
+    >>> calc.add_digit(2)
+    >>> calc.add_decimal()
+    >>> calc.add_digit(5)
+    >>> calc.get_equation()
+    2.5
+    """
     def add_decimal(self):
         if self.current_part == "first":
             if not "." in self.equation_first:
@@ -88,16 +158,24 @@ class Calculator:
             if not "." in self.equation_last:
                 self.equation_last += "."
 
+    """Solves the equation currently stored in the calculator and sets the equation to the new result.
+    
+    >>> calc = Calculator()
+    >>> calc.set_equation(1, Operator.ADD, 1)
+    >>> calc.solve()
+    >>> calc.get_equation()
+    2
+    """
     def solve(self):
         result = float(self.equation_first)
         
-        if self.equation_type == "+":
+        if self.equation_type == Operator.ADD:
             result += float(self.equation_last)
-        elif self.equation_type == "-":
+        elif self.equation_type == Operator.SUBTRACT:
             result -= float(self.equation_last)
-        elif self.equation_type == "/":
+        elif self.equation_type == Operator.DIVIDE:
             result /= float(self.equation_last)
-        elif self.equation_type == "x":
+        elif self.equation_type == Operator.MULTIPLY:
             result *= float(self.equation_last)
         
         if result == int(result):
