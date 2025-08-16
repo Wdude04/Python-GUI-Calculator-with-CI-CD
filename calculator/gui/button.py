@@ -1,4 +1,4 @@
-from api import calculator as calc
+import api
 import tkinter as tk
 
 LAYOUT_STANDARD = ["AC",  "CE", "%", "/",
@@ -7,12 +7,12 @@ LAYOUT_STANDARD = ["AC",  "CE", "%", "/",
                    "1",   "2",  "3", "+",
                    "+/-", "0",  ".", "="]
 
-def calc_button(root, calculator: calc.Calculator, display_text): 
+def calc_button(root, calculator: api.Calculator, display_text): 
     button = tk.Button(root, text=display_text, command=lambda: calculator.input_button(display_text))
     return button
 
 class CalculatorButtons:
-    def __init__(self, calculator: calc.Calculator):
+    def __init__(self, calculator: api.Calculator):
         self.calculator = calculator
         self.frame = None
         self.buttons = []

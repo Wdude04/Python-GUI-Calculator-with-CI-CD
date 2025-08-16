@@ -1,8 +1,8 @@
-from api import calculator as calc
+import api
 import tkinter as tk
 
 class CalculatorDisplay:
-    def __init__(self, calculator: calc.Calculator):
+    def __init__(self, calculator: api.Calculator):
         self.calculator = calculator
         self.frame = None
         self.upper_entry = None

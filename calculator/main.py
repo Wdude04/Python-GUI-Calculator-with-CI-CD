@@ -1,10 +1,10 @@
 import tkinter as tk
-from gui import button, display
-from api import calculator as calc
+import api
+import gui
 
 class App:
     def __init__(self):
-        self.calculator = calc.Calculator()
+        self.calculator = api.Calculator()
         self.window = tk.Tk()
         self.display = None
         self.buttons = None
@@ -12,8 +12,8 @@ class App:
     def create_gui(self):
         self.window.title("Calculator")
 
-        self.display = display.CalculatorDisplay(self.calculator)
-        self.buttons = button.CalculatorButtons(self.calculator)
+        self.display = gui.CalculatorDisplay(self.calculator)
+        self.buttons = gui.CalculatorButtons(self.calculator)
 
         self.display.create_gui(self.window)
         self.buttons.create_gui(self.window)
