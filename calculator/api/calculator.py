@@ -43,8 +43,8 @@ class Calculator:
         """Sets the current equation of the calculator.
         
         >>> calc = Calculator()
-        ... calc.set_equation(2, Operator.MULTIPLY, 2)
-        ... calc.get_equation()
+        >>> calc.set_equation(2, Operator.MULTIPLY, 2)
+        >>> calc.get_equation()
         2 x 2
         """
         self.equation_first = str(first_part)
@@ -60,8 +60,8 @@ class Calculator:
         """Returns the current equation as a single line string.
         
         >>> calc = Calculator()
-        ... calc.set_equation(2, Operator.MULTIPLY, 2)
-        ... calc.get_equation()
+        >>> calc.set_equation(2, Operator.MULTIPLY, 2)
+        >>> calc.get_equation()
         2 x 2
         """
         eq = " ".join(self.equation_first, self.equation_type, self.equation_last)
@@ -73,9 +73,9 @@ class Calculator:
         """Removes the last entry from the calculator. This could be a digit or the current operator.
         
         >>> calc = Calculator()
-        ... calc.set_equation(2, Operator.MULTIPLY, 2)
-        ... calc.clear_entry()
-        ... calc.clear_entry()
+        >>> calc.set_equation(2, Operator.MULTIPLY, 2)
+        >>> calc.clear_entry()
+        >>> calc.clear_entry()
         2
         """
         if self.current_part == "first":
@@ -97,9 +97,9 @@ class Calculator:
         """Adds a digit to the current number. Accepts str and int.
         
         >>> calc = Calculator()
-        ... calc.add_digit('2')
-        ... calc.add_digit(4)
-        ... calc.get_equation()
+        >>> calc.add_digit('2')
+        >>> calc.add_digit(4)
+        >>> calc.get_equation()
         24
         """
         if self.current_part == "first":
@@ -112,11 +112,11 @@ class Calculator:
         """Sets the operator of the equation. Also changes the current number to the second one.
         
         >>> calc = Calculator()
-        ... calc.add_digit(2)
-        ... calc.set_operator(Operator.ADD)
-        ... calc.add_digit(4)
-        ... calc.set_operator(Operator.SUB)
-        ... calc.get_equation()
+        >>> calc.add_digit(2)
+        >>> calc.set_operator(Operator.ADD)
+        >>> calc.add_digit(4)
+        >>> calc.set_operator(Operator.SUB)
+        >>> calc.get_equation()
         2 - 4
         """
         self.equation_type = operator
@@ -127,15 +127,15 @@ class Calculator:
         """Flips the sign of the current number.
         
         >>> calc = Calculator()
-        ... calc.add_digit(2)
-        ... calc.flip_sign()
-        ... calc.get_equation()
+        >>> calc.add_digit(2)
+        >>> calc.flip_sign()
+        >>> calc.get_equation()
         -2
 
         >>> calc = Calculator()
-        ... calc.set_equation(-2)
-        ... calc.flip_sign()
-        ... calc.get_equation()
+        >>> calc.set_equation(-2)
+        >>> calc.flip_sign()
+        >>> calc.get_equation()
         2
         """
         if self.current_part == "first":
@@ -154,10 +154,10 @@ class Calculator:
         """Adds a decimal to the end of the current number if it doesn't have one. Otherwise it does nothing.
         
         >>> calc = Calculator()
-        ... calc.add_digit(2)
-        ... calc.add_decimal()
-        ... calc.add_digit(5)
-        ... calc.get_equation()
+        >>> calc.add_digit(2)
+        >>> calc.add_decimal()
+        >>> calc.add_digit(5)
+        >>> calc.get_equation()
         2.5
         """
         if self.current_part == "first":
@@ -172,9 +172,9 @@ class Calculator:
         """Solves the equation currently stored in the calculator and sets the equation to the new result.
         
         >>> calc = Calculator()
-        ... calc.set_equation(1, Operator.ADD, 1)
-        ... calc.solve()
-        ... calc.get_equation()
+        >>> calc.set_equation(1, Operator.ADD, 1)
+        >>> calc.solve()
+        >>> calc.get_equation()
         2
         """
         result = float(self.equation_first)
