@@ -12,8 +12,8 @@ class CalculatorDisplay:
         self.frame = tk.Frame(root)
         self.upper_entry = tk.Entry(self.frame, state=tk.DISABLED, justify=tk.RIGHT)
         self.lower_entry = tk.Entry(self.frame, state=tk.DISABLED, justify=tk.RIGHT)
-        self.upper_entry.grid(row=0, sticky=tk.NSEW)
-        self.lower_entry.grid(row=1, sticky=tk.NSEW)
+        self.upper_entry.pack(fill=tk.BOTH,expand=True,side=tk.TOP)
+        self.lower_entry.pack(fill=tk.BOTH,expand=True,side=tk.BOTTOM)
     
     def update(self):
         self.upper_entry.configure(state=tk.NORMAL)

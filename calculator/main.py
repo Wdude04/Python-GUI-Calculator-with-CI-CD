@@ -5,18 +5,15 @@ from api import calculator as calc
 if __name__ == "__main__":
     c = calc.Calculator()
     main = tk.Tk()
-    main.title = "Calculator"
-    main.grid_rowconfigure(0, weight=1)
-    main.grid_rowconfigure(1, weight=2)
-    main.grid_columnconfigure(0, weight=1)
+    main.title("Calculator")
 
     calc_display = display.CalculatorDisplay(c)
     calc_display.create_gui(main)
-    calc_display.frame.grid(row=0,sticky=tk.NSEW)
+    calc_display.frame.pack(fill=tk.BOTH,expand=True,side=tk.TOP,padx=10,pady=(10,0))
 
     calc_buttons = button.CalculatorButtons(c)
     calc_buttons.create_gui(main)
-    calc_buttons.frame.grid(row=1,sticky=tk.NSEW)
+    calc_buttons.frame.pack(fill=tk.BOTH,expand=True,side=tk.BOTTOM,padx=10,pady=(0,10))
     
     while True:
         calc_buttons.update()

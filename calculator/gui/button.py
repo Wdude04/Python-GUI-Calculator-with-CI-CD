@@ -24,7 +24,10 @@ class CalculatorButtons:
             button.grid(column=i%width, row=int(i/width), sticky=tk.NSEW)
         
         for i in range(width):
-            self.frame.grid_columnconfigure(i, uniform="calc_buttons")
+            self.frame.grid_columnconfigure(i, uniform="calc_buttons", weight=1)
+        
+        for i in range(int(len(layout)/width)):
+            self.frame.grid_rowconfigure(i, weight=1)
     
     def update(self):
         pass

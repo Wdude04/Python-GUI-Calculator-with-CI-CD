@@ -4,6 +4,7 @@ A simple gui calculator app written in Python and Tkinter that integrates a CI/C
 TODO
  - [x] Basic calculator functionality
  - [ ] Implement % button
- - [ ] Multiple layouts & dynamic scaling
+ - [~] Multiple layouts & dynamic scaling
+    - Window scaling is implemented, multiple layouts are still WIP
  - [ ] Tests and documentation
  - [ ] CI/CD workflow using actions
