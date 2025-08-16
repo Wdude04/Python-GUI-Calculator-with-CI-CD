@@ -1,11 +1,34 @@
 import api
 import tkinter as tk
+from dataclasses import dataclass, field
 
-LAYOUT_STANDARD = ["AC",  "CE", "%", "/",
-                   "7",   "8",  "9", "x",
-                   "4",   "5",  "6", "-",
-                   "1",   "2",  "3", "+",
-                   "+/-", "0",  ".", "="]
+NO_BUTTON = "NO_BUTTON"
+
+@dataclass
+class ButtonLayout:
+    width: int
+    buttons: list[str]
+    size_overrides: dict = field(default_factory=dict)
+
+LAYOUT_STANDARD = ButtonLayout(4, 
+                ["AC",  "CE", "%", "/",
+                 "7",   "8",  "9", "x",
+                 "4",   "5",  "6", "-",
+                 "1",   "2",  "3", "+",
+                 "+/-", "0",  ".", "="])
+
+LAYOUT_NO_NEGATE = ButtonLayout(4,
+                ["AC",      "CE", "%", "/",
+                 "7",       "8",  "9", "x",
+                 "4",       "5",  "6", "-",
+                 "1",       "2",  "3", "+",
+                 "0",  ".", "="],
+                 {(2, 4): (2,1)})
+
+LAYOUT_NO_NUMBERS = ButtonLayout(5,
+                ["AC", "CE", "%", ".", "=",
+                 "/", "x", "-", "+",],
+                 {(4,0): (1,2)})
 
 def calc_button(root, calculator: api.Calculator, display_text): 
     button = tk.Button(root, text=display_text, command=lambda: calculator.input_button(display_text))
@@ -17,18 +40,28 @@ class CalculatorButtons:
         self.frame = None
         self.buttons = []
 
-    def create_gui(self, root, layout=LAYOUT_STANDARD, width=4):
+    def create_gui(self, root, layout: ButtonLayout=LAYOUT_STANDARD):
         self.frame = tk.Frame(root)
 
-        for i, label in enumerate(layout):
+        for i, label in enumerate(layout.buttons):
+            if label == NO_BUTTON:
+                continue
+            x = i%layout.width
+            y = int(i/layout.width)
+            size_x = 1
+            size_y = 1
+            if (x,y) in layout.size_overrides:
+                size_x, size_y = layout.size_overrides[(x,y)]
+            
             button = calc_button(self.frame, self.calculator, label)
-            button.grid(column=i%width, row=int(i/width), sticky=tk.NSEW)
+            button.grid(column=x, row=y, sticky=tk.NSEW, columnspan=size_x, rowspan=size_y)
+
             self.buttons.append(button)
         
-        for i in range(width):
+        for i in range(layout.width):
             self.frame.grid_columnconfigure(i, uniform="calc_buttons", weight=1)
         
-        for i in range(int(len(layout)/width)):
+        for i in range(int(len(layout.buttons)/layout.width)):
             self.frame.grid_rowconfigure(i, weight=1)
 
     def update(self):
