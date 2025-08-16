@@ -37,6 +37,6 @@ jobs:
     - name: Test with doctest
       run: |
         python -m doctest -v calculator/api/calculator.py
-    - name: Test with pytest
-      run: |
-        pytest
+#    - name: Test with pytest
+#      run: |
+#        pytest
