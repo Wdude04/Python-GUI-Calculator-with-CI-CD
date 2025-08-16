@@ -15,6 +15,7 @@ class CalculatorButtons:
     def __init__(self, calculator: calc.Calculator):
         self.calculator = calculator
         self.frame = None
+        self.buttons = []
 
     def create_gui(self, root, layout=LAYOUT_STANDARD, width=4):
         self.frame = tk.Frame(root)
@@ -22,12 +23,13 @@ class CalculatorButtons:
         for i, label in enumerate(layout):
             button = calc_button(self.frame, self.calculator, label)
             button.grid(column=i%width, row=int(i/width), sticky=tk.NSEW)
+            self.buttons.append(button)
         
         for i in range(width):
             self.frame.grid_columnconfigure(i, uniform="calc_buttons", weight=1)
         
         for i in range(int(len(layout)/width)):
             self.frame.grid_rowconfigure(i, weight=1)
-    
+
     def update(self):
         pass
