@@ -1,21 +1,20 @@
 import api
 import tkinter as tk
+from gui.base_widget import AbstractBaseWidget
 
-class CalculatorDisplay:
+class CalculatorDisplay(AbstractBaseWidget):
     def __init__(self, calculator: api.Calculator):
-        self.calculator = calculator
-        self.frame = None
+        super().__init__(calculator)
         self.upper_entry = None
         self.lower_entry = None
     
-    def create_gui(self, root):
-        self.frame = tk.Frame(root)
+    def _create_layout(self, window_resolution):
         self.upper_entry = tk.Entry(self.frame, state=tk.DISABLED, justify=tk.RIGHT)
         self.lower_entry = tk.Entry(self.frame, state=tk.DISABLED, justify=tk.RIGHT)
         self.upper_entry.pack(fill=tk.BOTH,expand=True,side=tk.TOP)
         self.lower_entry.pack(fill=tk.BOTH,expand=True,side=tk.BOTTOM)
-    
-    def update(self):
+        
+    def _update(self):
         self.upper_entry.configure(state=tk.NORMAL)
         self.lower_entry.configure(state=tk.NORMAL)
 
