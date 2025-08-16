@@ -64,7 +64,7 @@ class Calculator:
         >>> calc.get_equation()
         2 x 2
         """
-        eq = " ".join(self.equation_first, self.equation_type, self.equation_last)
+        eq = " ".join([self.equation_first, self.equation_type, self.equation_last])
         eq = eq.rstrip()
         return eq
     
